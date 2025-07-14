@@ -26,9 +26,10 @@ public class Movie implements Serializable {
 
     private Integer duration;
 
-    private Double rating;
+    private Integer rating;
 
-    private String releaseYear;
+    @Column(name = "release_year")
+    private Integer releaseYear;
 
 
 }
