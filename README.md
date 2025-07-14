@@ -1,9 +1,15 @@
 # Movie Ticket Booking System - Backend Development
 A RESTful API for a movie ticket booking system using Spring Boot. The system will manage movies, showtimes, users, and ticket bookings. 
 
-## Prerequisites
+### Prerequisites
 maven- apache-maven-3.9.10  
 java- 17
+
+### Steps to run the application
+mvn clean install -U  
+docker build -t movie-ticket-booking-system .  
+docker-compose up
+http://localhost:8080/swagger-ui/index.html  
 
 ## 🚀 Features
 This project includes the following key features:
