@@ -1,6 +1,6 @@
 package com.backend.movie_ticket.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,6 +35,6 @@ public class Movie implements Serializable {
     private Integer releaseYear;
 
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonBackReference // prevents infinite loop
     private List<Showtime> showtimes = new ArrayList<>();
 }

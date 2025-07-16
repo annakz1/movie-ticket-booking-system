@@ -26,6 +26,6 @@ public class Theater {
     private Integer totalSeats;
 
     @OneToMany(mappedBy = "theater", cascade = CascadeType.ALL)
-    @JsonBackReference
+    @JsonBackReference // prevents infinite loop
     private List<Showtime> showtimes = new ArrayList<>();
 }
