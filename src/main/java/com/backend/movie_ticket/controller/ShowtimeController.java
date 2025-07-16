@@ -1,0 +1,57 @@
+package com.backend.movie_ticket.controller;
+
+import com.backend.movie_ticket.model.Showtime;
+import com.backend.movie_ticket.model.ShowtimeDTO;
+import com.backend.movie_ticket.service.ShowtimeService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/showtimes")
+@RequiredArgsConstructor
+public class ShowtimeController {
+
+    private final ShowtimeService showtimeService;
+
+    @PostMapping
+    public ResponseEntity<?> addShowtime(@RequestBody @Valid ShowtimeDTO showtimeDTO) {
+        try {
+            Showtime showtime = showtimeService.addShowtime(showtimeDTO);
+            return new ResponseEntity<>(showtime, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateShowtime(@PathVariable Long id, @RequestBody @Valid ShowtimeDTO showtimeDTO) {
+        try {
+            Showtime updateShowtime = showtimeService.updateShowtime(id, showtimeDTO);
+            return new ResponseEntity<>(updateShowtime, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteShowtime(@PathVariable Long id) {
+        showtimeService.deleteShowtime(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/movie/{movieId}")
+    public ResponseEntity<List<Showtime>> getByMovie(@PathVariable Long movieId) {
+        return ResponseEntity.ok(showtimeService.getByMovie(movieId));
+    }
+
+    @GetMapping("/theater/{theaterId}")
+    public ResponseEntity<List<Showtime>> getByTheater(@PathVariable Long theaterId) {
+        return ResponseEntity.ok(showtimeService.getByTheater(theaterId));
+    }
+
+}

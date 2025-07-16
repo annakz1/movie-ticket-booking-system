@@ -1,4 +1,4 @@
-package com.backend.movie_ticket.exceptions;
+package com.backend.movie_ticket.exception;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -23,4 +23,6 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.badRequest().body(errors);
     }
+
+    // TODO add handling for 404 error
 }

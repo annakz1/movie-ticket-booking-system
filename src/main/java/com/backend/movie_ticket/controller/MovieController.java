@@ -16,19 +16,13 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/movies")
+@RequestMapping("/api/movies")
 public class MovieController {
 
     @Autowired
     private MovieService movieService;
 
-    @Autowired
-    private EntityManager em;
-
-    @Autowired
-    private ObjectMapper om;
-
-    @PostMapping(value = "")
+    @PostMapping
     public ResponseEntity<?> addNewMovie(@RequestBody @Valid MovieDTO movieDTO) {
         Movie movie = movieDTO.toMovie();
         movie = movieService.save(movie);
