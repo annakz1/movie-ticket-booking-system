@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name="movie")
+@Table(name = "movie")
 public class Movie implements Serializable {
 
     @Id

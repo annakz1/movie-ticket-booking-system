@@ -3,8 +3,7 @@ package com.backend.movie_ticket.controller;
 import com.backend.movie_ticket.model.Movie;
 import com.backend.movie_ticket.model.MovieDTO;
 import com.backend.movie_ticket.service.MovieService;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.persistence.EntityManager;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,7 +15,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/movies")
+@RequestMapping("/api/admin/movies")
+@SecurityRequirement(name = "bearerAuth")
 public class MovieController {
 
     @Autowired
