@@ -8,9 +8,11 @@ A RESTful API for a movie ticket booking system built with Spring Boot. This bac
 
 🚀 Getting Started  
 🛠️ Build & Run    
-` mvn clean install -U`  
-` docker build -t movie-ticket-booking-system .`   
-` docker-compose up `  
+``` 
+mvn clean install -U
+docker build -t movie-ticket-booking-system .        
+docker-compose up 
+ ```
   
 Once up, access the API via Swagger UI:  
 ➡️ http://localhost:8080/swagger-ui/index.html
@@ -21,13 +23,13 @@ Once up, access the API via Swagger UI:
 
 🔐 Using JWT for Authentication  
 Steps:  
-1. <b> Login </b>
+1. <b> Login </b>   
 Send a POST request to /api/auth/login with email and password.
 2. <b> Receive JWT Token </b>  
 The token will be included in the response.
 3. <b> Authorize Requests </b>  
 For protected endpoints (e.g. /api/admin/movies), include the token in the request header:
-Authorization: Bearer <your-jwt-token>
+`Authorization: Bearer <your-jwt-token>`
 
 💡 Features    
 🎥 Movie Management    
