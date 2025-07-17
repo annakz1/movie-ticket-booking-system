@@ -9,10 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/admin/movies")
@@ -24,39 +22,33 @@ public class MovieController {
 
     @PostMapping
     public ResponseEntity<?> addNewMovie(@RequestBody @Valid MovieDTO movieDTO) {
-        Movie movie = movieDTO.toMovie();
-        movie = movieService.save(movie);
-        return new ResponseEntity<>(movie, HttpStatus.CREATED);
+        try {
+            Movie movie = movieService.addNewMovie(movieDTO);
+            return new ResponseEntity<>(movie, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<?> updateMovieInfo(@PathVariable Long id, @RequestBody @Valid MovieDTO movieDTO) {
-        Optional<Movie> dbMovie = movieService.findById(id);
-        if (dbMovie.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Movie with id: " + id + " not found");
+        try {
+            Movie updateShowtime = movieService.updateMovieInfo(id, movieDTO);
+            return new ResponseEntity<>(updateShowtime, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-        movieDTO.updateMovieInfo(dbMovie.get());
-        Movie updatedMovie = movieService.save(dbMovie.get());
-        return new ResponseEntity<>(updatedMovie, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> deleteMovie(@PathVariable Long id) {
-        Optional<Movie> dbMovie = movieService.findById(id);
-        if (dbMovie.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Movie with id: " + id + " not found");
-        }
-        movieService.delete(dbMovie.get());
+        movieService.deleteMovie(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> getOneMovie(@PathVariable Long id) {
-        Optional<Movie> dbMovie = movieService.findById(id);
-        if (dbMovie.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Movie with id: " + id + " not found");
-        }
-        return new ResponseEntity<>(dbMovie.get(), HttpStatus.OK);
+        return ResponseEntity.ok(movieService.getOneMovie(id));
     }
 
     @GetMapping

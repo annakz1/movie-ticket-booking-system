@@ -15,7 +15,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @Service
-//@RequiredArgsConstructor TODO check if better
 public class ShowtimeService {
 
     @Autowired
@@ -40,12 +39,7 @@ public class ShowtimeService {
 
         validateOverlap(showtimeDTO);
 
-        Showtime showtime = new Showtime();
-        showtime.setMovie(movie);
-        showtime.setTheater(theater);
-        showtime.setStartTime(showtimeDTO.getStartTime());
-        showtime.setEndTime(showtimeDTO.getEndTime());
-
+        Showtime showtime = showtimeDTO.toShowtime(movie, theater);
         return showtimeRepository.save(showtime);
     }
 
@@ -103,5 +97,21 @@ public class ShowtimeService {
             throw new IllegalArgumentException("Overlapping showtime already exists for this theater.");
         }
     }
+
+    public int getMaxSeats(Long showtimeId) {
+        Showtime showtime = showtimeRepository.findById(showtimeId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Showtime " + showtimeId + " not found"));
+
+        return showtime.getMaxSeats();
+    }
+
+    public void updateMaxSeats(Long showtimeId, int maxSeats) {
+        Showtime showtime = showtimeRepository.findById(showtimeId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Showtime " + showtimeId + " not found"));
+
+        showtime.setMaxSeats(maxSeats);
+        showtimeRepository.save(showtime);
+    }
+
 }
 

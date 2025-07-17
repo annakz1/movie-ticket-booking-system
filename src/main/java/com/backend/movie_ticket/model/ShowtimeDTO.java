@@ -26,4 +26,12 @@ public class ShowtimeDTO {
         showtime.setStartTime(startTime);
         showtime.setEndTime(endTime);
     }
+
+    public Showtime toShowtime(Movie movie, Theater theater) {
+        return Showtime.builder().movie(movie)
+                .theater(theater)
+                .startTime(startTime)
+                .endTime(endTime)
+                .build();
+    }
 }

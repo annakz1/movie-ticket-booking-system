@@ -8,7 +8,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface MovieRepository extends JpaRepository<Movie, Long> {
-    // TODO add LOWER
     @Query("SELECT m FROM Movie m WHERE " +
             "(:title IS NULL OR m.title = :title) AND " +
             "(:genre IS NULL OR m.genre = :genre) AND " +

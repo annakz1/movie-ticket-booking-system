@@ -2,6 +2,7 @@ package com.backend.movie_ticket.controller;
 
 import com.backend.movie_ticket.model.Showtime;
 import com.backend.movie_ticket.model.ShowtimeDTO;
+import com.backend.movie_ticket.model.UpdateMaxSeatsRequest;
 import com.backend.movie_ticket.service.ShowtimeService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
@@ -55,5 +56,18 @@ public class ShowtimeController {
     public ResponseEntity<List<Showtime>> getByTheater(@PathVariable Long theaterId) {
         return ResponseEntity.ok(showtimeService.getByTheater(theaterId));
     }
+
+    @GetMapping("/{id}/max-seats")
+    public ResponseEntity<Integer> getMaxSeats(@PathVariable Long id) {
+        int maxSeats = showtimeService.getMaxSeats(id);
+        return ResponseEntity.ok(maxSeats);
+    }
+
+    @PostMapping("/update-max-seats")
+    public ResponseEntity<String> updateMaxSeats(@RequestBody @Valid UpdateMaxSeatsRequest request) {
+        showtimeService.updateMaxSeats(request.getShowtimeId(), request.getMaxSeats());
+        return ResponseEntity.ok("Max seats updated successfully.");
+    }
+
 
 }

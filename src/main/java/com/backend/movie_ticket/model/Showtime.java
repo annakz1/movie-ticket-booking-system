@@ -1,9 +1,9 @@
 package com.backend.movie_ticket.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "showtime")
 public class Showtime {
@@ -32,6 +33,10 @@ public class Showtime {
     @JoinColumn(name = "theater_id")
     @JsonManagedReference
     private Theater theater;
+
+    @Column(nullable = false)
+    private int maxSeats;
+
 }
 
 
