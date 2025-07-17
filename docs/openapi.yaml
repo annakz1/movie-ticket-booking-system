@@ -1,8 +1,9 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "OpenAPI definition",
-    "version": "v0"
+    "title": "Movie Booking API",
+    "description": "API for managing movies, theaters, and showtimes",
+    "version": "1.0"
   },
   "servers": [
     {
@@ -10,8 +11,86 @@
       "description": "Generated server url"
     }
   ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
   "paths": {
-    "/movies/{id}": {
+    "/api/admin/showtimes/{id}": {
+      "put": {
+        "tags": [
+          "showtime-controller"
+        ],
+        "operationId": "updateShowtime",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ShowtimeDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "showtime-controller"
+        ],
+        "operationId": "deleteShowtime",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/admin/movies/{id}": {
       "get": {
         "tags": [
           "movie-controller"
@@ -39,7 +118,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       },
       "put": {
         "tags": [
@@ -78,7 +162,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       },
       "delete": {
         "tags": [
@@ -107,10 +196,175 @@
               }
             }
           }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/customer/bookings": {
+      "post": {
+        "tags": [
+          "booking-controller"
+        ],
+        "operationId": "bookTicket",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BookingDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
         }
       }
     },
-    "/movies": {
+    "/api/auth/register": {
+      "post": {
+        "tags": [
+          "auth-controller"
+        ],
+        "operationId": "register",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "tags": [
+          "auth-controller"
+        ],
+        "operationId": "login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/showtimes": {
+      "post": {
+        "tags": [
+          "showtime-controller"
+        ],
+        "operationId": "addShowtime",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ShowtimeDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/admin/showtimes/update-max-seats": {
+      "post": {
+        "tags": [
+          "showtime-controller"
+        ],
+        "operationId": "updateMaxSeats",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMaxSeatsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/admin/movies": {
       "get": {
         "tags": [
           "movie-controller"
@@ -175,7 +429,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       },
       "post": {
         "tags": [
@@ -203,12 +462,159 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/admin/showtimes/{id}/max-seats": {
+      "get": {
+        "tags": [
+          "showtime-controller"
+        ],
+        "operationId": "getMaxSeats",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/admin/showtimes/theater/{theaterId}": {
+      "get": {
+        "tags": [
+          "showtime-controller"
+        ],
+        "operationId": "getByTheater",
+        "parameters": [
+          {
+            "name": "theaterId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Showtime"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/admin/showtimes/movie/{movieId}": {
+      "get": {
+        "tags": [
+          "showtime-controller"
+        ],
+        "operationId": "getByMovie",
+        "parameters": [
+          {
+            "name": "movieId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Showtime"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     }
   },
   "components": {
     "schemas": {
+      "ShowtimeDTO": {
+        "required": [
+          "endTime",
+          "movieId",
+          "startTime",
+          "theaterId"
+        ],
+        "type": "object",
+        "properties": {
+          "movieId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "theaterId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "startTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endTime": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
       "MovieDTO": {
         "required": [
           "title"
@@ -244,6 +650,170 @@
             "format": "int32"
           }
         }
+      },
+      "BookingDTO": {
+        "required": [
+          "seatNumber",
+          "showtimeId"
+        ],
+        "type": "object",
+        "properties": {
+          "showtimeId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "seatNumber": {
+            "minimum": 1,
+            "type": "integer",
+            "format": "int64"
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "RegisterRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "ADMIN",
+              "CUSTOMER"
+            ]
+          }
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdateMaxSeatsRequest": {
+        "required": [
+          "maxSeats",
+          "showtimeId"
+        ],
+        "type": "object",
+        "properties": {
+          "showtimeId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "maxSeats": {
+            "minimum": 0,
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "Movie": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "title": {
+            "type": "string"
+          },
+          "genre": {
+            "type": "string"
+          },
+          "duration": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "rating": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "releaseYear": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "showtimes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Showtime"
+            }
+          }
+        }
+      },
+      "Showtime": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "startTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "movie": {
+            "$ref": "#/components/schemas/Movie"
+          },
+          "theater": {
+            "$ref": "#/components/schemas/Theater"
+          },
+          "maxSeats": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "Theater": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "totalSeats": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "showtimes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Showtime"
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     }
   }
